@@ -1,0 +1,38 @@
+.rate-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  
+  .rate-card-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rate-icon {
+    font-size: 2rem;
+    color: #e63946; /* Red color for heart rate */
+  }
+  
+  .rate-info {
+    margin-left: 10px;
+  }
+  
+  .rate-label {
+    font-size: 14px;
+    color: #4f4f4f;
+  }
+  
+  .rate-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
