@@ -9,10 +9,23 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { getPresence, getRespirationRate } from "../api/rateApi"; 
+import supine from '../assets/supine.png'
+import prone from '../assets/prone.png'
+import left from '../assets/left.png'
+import right from '../assets/right.png'
+
+const postureImageMap = {
+  supine: supine,
+  prone: prone,
+  left: left,
+  right: right,
+};
+
 const Dashboard = () => {
   const [respirationRate, setRespirationRate] = useState(null);
   const [presence, setPresence] = useState('empty');
   const [loading, setLoading] = useState(true);
+  const [posture, setPosture] = useState("supine")
 
   useEffect(() => {
     const fetchRespirationRate = async () => {
@@ -73,7 +86,12 @@ const Dashboard = () => {
         icon={<SafetyOutlined />}
       />
 
-      <RateCard label="Body Posture" value={"Supine"} unit="" icon={<UserOutlined />} />
+      <RateCard 
+        label="Body Posture" 
+        value={posture} 
+        unit="" 
+        icon={<UserOutlined/>}
+        img={postureImageMap[posture.toLowerCase()]} />
     </div>
   );
 };
