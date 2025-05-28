@@ -3,7 +3,6 @@ import apiClient from "./client";
 export const getRespirationRate = async () => {
     try {
     const response = await apiClient.get("csidata/predict_respiration_rate");
-    console.log(response)
     return response.data;
     } catch (error) {
     console.error("Error getting RR", error);

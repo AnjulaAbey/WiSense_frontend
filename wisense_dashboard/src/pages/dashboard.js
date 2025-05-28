@@ -17,8 +17,7 @@ const Dashboard = () => {
     const fetchRespirationRate = async () => {
       try {
         const data = await getRespirationRate();
-        setRespirationRate(data.respiration_rate_bpm); 
-        console.log("Respiration Rate:", data);
+        setRespirationRate(parseFloat(data.respiration_rate_bpm).toFixed(1)); 
       } catch (error) {
         console.error("Failed to fetch respiration rate:", error);
         setRespirationRate("N/A");
@@ -26,9 +25,10 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-
+  
     fetchRespirationRate();
   }, []);
+  
 
   return (
     <div className="dashboard">
