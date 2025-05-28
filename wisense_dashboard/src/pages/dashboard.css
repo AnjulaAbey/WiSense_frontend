@@ -1,7 +1,7 @@
 .dashboard {
-    display: flex;
-    gap: 50px;
-    padding: 500px;
-    justify-content: center;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;       /* Allows wrapping on smaller screens */
+  gap: 16px;
+  justify-content: center; /* Center the cards on mobile */
+  padding: 16px;
+}
