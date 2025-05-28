@@ -8,16 +8,17 @@ import {
   SafetyOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { getRespirationRate } from "../api/rateApi"; 
+import { getPresence, getRespirationRate } from "../api/rateApi"; 
 const Dashboard = () => {
   const [respirationRate, setRespirationRate] = useState(null);
+  const [presence, setPresence] = useState('empty');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRespirationRate = async () => {
       try {
         const data = await getRespirationRate();
-        setRespirationRate(parseFloat(data.respiration_rate_bpm).toFixed(1)); 
+        setRespirationRate(parseInt(data.respiration_rate_bpm));
       } catch (error) {
         console.error("Failed to fetch respiration rate:", error);
         setRespirationRate("N/A");
@@ -25,8 +26,26 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
+    const fetchPresence = async () => {
+      try {
+        const data = await getPresence();
+        setPresence(data.presence);
+      } catch (error) {
+        console.error("Failed to fetch respiration rate:", error);
+        setPresence("N/A");
+      } finally {
+        setLoading(false);
+      }
+    };
   
+    // Initial fetch
     fetchRespirationRate();
+    fetchPresence();
+    // Set up interval
+    const intervalId = setInterval(fetchRespirationRate, 10000); 
+  
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
   }, []);
   
 
@@ -34,7 +53,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <RateCard
         label="Presence"
-        value={false ? "Absent" : "Present"}
+        value={presence=="empty" ? "Absent" : "Present"}
         unit=""
         icon={
           false ? (

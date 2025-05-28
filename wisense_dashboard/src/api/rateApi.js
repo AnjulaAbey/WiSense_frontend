@@ -22,7 +22,7 @@ export const getHeartRate = async () => {
 
 export const getPresence = async () => {
     try {
-        const response = await apiClient.get("/presence");
+        const response = await apiClient.get("/presence/predict");
         return response.data;
     } catch (error) {
         console.error("Error getting presence", error);
