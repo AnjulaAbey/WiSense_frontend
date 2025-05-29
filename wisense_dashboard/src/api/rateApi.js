@@ -32,7 +32,7 @@ export const getPresence = async () => {
 
 export const getBodyPosture = async () => {
     try {
-        const response = await apiClient.get("/body-posture");
+        const response = await apiClient.get("/posture/predict");
         return response.data;
     } catch (error) {
         console.error("Error getting body posture", error);

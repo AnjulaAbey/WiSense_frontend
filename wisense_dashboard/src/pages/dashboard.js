@@ -8,7 +8,7 @@ import {
   SafetyOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { getPresence, getRespirationRate } from "../api/rateApi"; 
+import { getBodyPosture, getPresence, getRespirationRate } from "../api/rateApi"; 
 import supine from '../assets/supine.png'
 import prone from '../assets/prone.png'
 import left from '../assets/left.png'
@@ -23,9 +23,9 @@ const postureImageMap = {
 
 const Dashboard = () => {
   const [respirationRate, setRespirationRate] = useState(null);
-  const [presence, setPresence] = useState('empty');
+  const [presence, setPresence] = useState('Presence');
   const [loading, setLoading] = useState(true);
-  const [posture, setPosture] = useState("supine")
+  const [posture, setPosture] = useState("")
 
   useEffect(() => {
     const fetchRespirationRate = async () => {
@@ -45,7 +45,19 @@ const Dashboard = () => {
         setPresence(data.presence);
       } catch (error) {
         console.error("Failed to fetch respiration rate:", error);
-        setPresence("N/A");
+        console.log({posture})
+        setPresence(error.posture);
+      } finally {
+        setLoading(false);
+      }
+    };
+    const fetchPosture = async () => {
+      try {
+        const data = await getBodyPosture();
+        console.log(data.posture)
+        setPosture(data.posture);
+      } catch (error) {
+        console.error("Failed to fetch respiration rate:", error);
       } finally {
         setLoading(false);
       }
@@ -54,11 +66,15 @@ const Dashboard = () => {
     // Initial fetch
     fetchRespirationRate();
     fetchPresence();
+    fetchPosture();
     // Set up interval
     const intervalId = setInterval(fetchRespirationRate, 10000); 
+    const intervalId2 = setInterval(fetchPresence, 10000); 
+    const intervalId3 = setInterval(fetchPosture, 10000); 
+    
   
     // Cleanup on unmount
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId, intervalId2, intervalId3);
   }, []);
   
 
@@ -91,7 +107,7 @@ const Dashboard = () => {
         value={posture} 
         unit="" 
         icon={<UserOutlined/>}
-        img={postureImageMap[posture.toLowerCase()]} />
+        img={posture != "N/A" && postureImageMap[posture.toLowerCase()]} />
     </div>
   );
 };
